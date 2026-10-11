@@ -22,8 +22,10 @@ def parse_move(pos):
     return row, col
 
 def play():
+    turn = 'White'
     while True:
         display()
+        print(f"{turn}'s turn.")
         move = input("Enter move (e.g., e2 e4) or q to quit: ")
         if move == 'q':
             break
@@ -31,10 +33,22 @@ def play():
             start, end = move.split()
             r1, c1 = parse_move(start)
             r2, c2 = parse_move(end)
-            board[r2][c2] = board[r1][c1]
-            board[r1][c1] = '.'
-        except:
-            pass
+
+piece = board[r1][c1]
+if piece == '.':
+    print("Empty square!")
+    continue
+
+if (turn == 'White' and piece.islower()) or (turn == 'Black' and piece.isupper()):
+    print("Not your piece!")
+    continue
+
+board[r2][c2] = piece
+board[r1][c1] = '.'
+
+turn = 'Black' if turn == 'White' else 'White'
+except:
+pass
         
 if __name__ == "__main__":
     play()
