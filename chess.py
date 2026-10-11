@@ -33,22 +33,34 @@ def play():
             start, end = move.split()
             r1, c1 = parse_move(start)
             r2, c2 = parse_move(end)
-
-piece = board[r1][c1]
-if piece == '.':
-    print("Empty square!")
-    continue
-
-if (turn == 'White' and piece.islower()) or (turn == 'Black' and piece.isupper()):
-    print("Not your piece!")
-    continue
-
-board[r2][c2] = piece
-board[r1][c1] = '.'
-
-turn = 'Black' if turn == 'White' else 'White'
-except:
-pass
+            
+            piece = board[r1][c1]
+            if piece == '.':
+                print("Empty square!")
+                continue
+                
+            if (turn == 'White' and piece.islower()) or (turn == 'Black' and piece.isupper()):
+                print("Not your piece!")
+                continue
+            
+            target = board[r2][c2]
+            if target != '.':
+                if (turn == 'White' and target.isupper()) or (turn == 'Black' and target.islower()):
+                    print("Cannot capture own piece!")
+                    continue
+                if target.lower() == 'k':
+                    board[r2][c2] = piece
+                    board[r1][c1] = '.'
+                    display()
+                    print(f"{turn} wins!")
+                    break
+                    
+            board[r2][c2] = piece
+            board[r1][c1] = '.'
+            
+            turn = 'Black' if turn == 'White' else 'White'
+        except Exception:
+            pass
         
 if __name__ == "__main__":
     play()
